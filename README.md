@@ -1,4 +1,4 @@
-#C++ Concurrency Sandbox (Mall) 
+C++ Concurrency Sandbox (Mall) 
 ------------------------------
 This project is exploring concurrency by simulating operations of multiple stores at a mall. 
 Each store will have it's own inventory of goods, customers, employees, and financial reporting. 
