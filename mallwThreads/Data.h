@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include "FootLocker.h"
+#include "AMC.h"
 
 
 enum class CustomerState
@@ -7,6 +9,15 @@ enum class CustomerState
     active,
     done,
 };
+
+
+enum class CustomerChoice
+{
+    Footlocker,
+    AMC,
+    Buffet,
+};
+
 
 struct Snack
 {
@@ -45,11 +56,14 @@ struct Shoe
 struct Customer
 {
     int m_age{};
+    CustomerState m_state;
+    CustomerChoice m_choice;
+    std::string m_name{};
     Movie m_requestMovie{};
     Snack m_requestSnack{};
     Shoe m_requestShoe{};
-    std::string m_name{};
-    CustomerState m_state;
+    
+    
 
     void SetShoe(Shoe&& shoe)
     {
@@ -65,6 +79,24 @@ struct Customer
     {
         m_requestSnack = snack;
     }
+
+
+    void ChooseStore(FootLocker& foot,AMC& amc)
+    {
+        switch (m_choice)
+        {
+        case CustomerChoice::Footlocker:
+            foot.AcceptCustomer(*this);
+            break;
+
+        case CustomerChoice::AMC:
+            amc.AcceptCustomer(*this);
+            break;
+            
+        }
+    }
+
+
 
     friend std::ostream& operator<<(std::ostream& out, const Customer& customer);
 

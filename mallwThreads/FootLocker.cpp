@@ -26,11 +26,6 @@ void FootLocker::ServeCustomer()
 
 
 
-
-
-
-
-
         }
 
         if (GetRev() == 0)
@@ -68,14 +63,36 @@ void FootLocker::PrintShoes() const
 
 void FootLocker::FillQueue() // func for bouncer thread
 {
-    
+    while (!m_shutDown)
+    {
+        while (m_customers.empty() && !m_waitingQueue.empty())
+        {
+            m_customerLock.lock();
+            if (m_customers.size() < 20)
+            {
+                m_customers.push(m_waitingQueue.front());
+                m_waitingQueue.pop();
+            }
+            else
+            {
+                m_customerLock.unlock();
+                break;
+            }
+
+        }
+    }
+   
     
 
 }
 
-void FootLocker::AcceptCustomer(const Customer& customer)
+ void FootLocker::AcceptCustomer(const Customer& customer)
 {
-
+     if (m_customers.size() >= 20)
+     {
+         m_waitingQueue.push(customer);
+         return;
+     }
 
     m_customers.push(customer);
 }

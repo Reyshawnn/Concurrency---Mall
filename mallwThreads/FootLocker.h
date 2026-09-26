@@ -32,6 +32,7 @@ private:
     
     std::vector<Shoe>m_shoes{};
     std::queue<Customer> m_customers;
+    std::queue<Customer> m_waitingQueue;
     std::mutex m_customerLock;
     bool m_shutDown;
     
