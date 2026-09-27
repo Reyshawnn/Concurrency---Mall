@@ -126,15 +126,19 @@
   <ItemGroup>
     <ClCompile Include="AMC.cpp" />
     <ClCompile Include="Base.cpp" />
+    <ClCompile Include="Buffet.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="FootLocker.cpp" />
+    <ClCompile Include="Generator.cpp" />
     <ClCompile Include="mallwThreads.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AMC.h" />
     <ClInclude Include="Base.h" />
+    <ClInclude Include="Buffet.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="FootLocker.h" />
+    <ClInclude Include="Generator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

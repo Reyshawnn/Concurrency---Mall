@@ -9,7 +9,7 @@ void FootLocker::ServeCustomer()
         }
 
 
-        while (!m_customers.empty())
+        while (m_customers.size() >= 10)
         {
 
             m_customerLock.lock();
@@ -20,9 +20,7 @@ void FootLocker::ServeCustomer()
 
             m_customerLock.unlock();
 
-            Shoe shoe{ customer.m_requestShoe };
-
-            AddRev(shoe.m_price);
+            AddRev(customer.m_requestShoe.m_price);
 
 
 

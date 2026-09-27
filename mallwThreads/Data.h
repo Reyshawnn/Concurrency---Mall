@@ -21,7 +21,7 @@ enum class CustomerChoice
 
 struct Snack
 {
-    float m_price{};
+    int m_price{};
     std::string m_name{};
     
   
@@ -32,8 +32,8 @@ struct Snack
 
 struct Movie
 {
-    int m_minutes{};
     float m_price{};
+    int m_minutes{};
     std::string m_name{};
     
      

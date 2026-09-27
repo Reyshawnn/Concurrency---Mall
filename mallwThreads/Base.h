@@ -7,7 +7,7 @@ class BaseStore
 {
 public:
 	virtual void ServeCustomer() = 0;
-	static void AcceptCustomer(const Customer& customer);
+	void AcceptCustomer(const Customer& customer);
 	int GetRev() const;
 	void ConsultOwner(Owner& owner); //Make a Owner Class
 	void AddRev(int money);

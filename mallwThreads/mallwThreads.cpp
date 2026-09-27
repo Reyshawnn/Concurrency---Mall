@@ -8,6 +8,7 @@
 #include <utility>
 #include "Data.h"
 #include <thread>
+#include "Generator.h"
 
 //Mall example 
 /*
