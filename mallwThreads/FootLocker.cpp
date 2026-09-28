@@ -3,36 +3,27 @@ void FootLocker::ServeCustomer()
 {
     while (!m_shutDown)
     {
-        while (m_customers.empty())
-        {
-            //wait or sleep
-        }
+        std::unique_lock lock{ m_customerLock }; //cashier waiting till the queue has at least 10 customers
+        m_condition.wait(lock, [&] {
+            return QueueReady();
+            });
 
+        Customer customer{ GetNextCustomer() }; //Add move semantics to the customer
 
-        while (m_customers.size() >= 10)
-        {
+        m_customers.pop(); //add a pop function
 
-            m_customerLock.lock();
+        m_customerLock.unlock();
 
-            Customer customer{ GetNextCustomer() }; //Add move semantics to the customer
+        AddRev(customer.m_requestShoe.m_price);
+        
 
-            m_customers.pop(); //add a pop function
-
-            m_customerLock.unlock();
-
-            AddRev(customer.m_requestShoe.m_price);
-
-
-
-        }
-
-        if (GetRev() == 0)
+        if (GetRev() < 1000)
         {
             continue;
         }
         else
         {
-            //consult owner
+            ConsultOwner();
         }
     }
     
@@ -63,21 +54,19 @@ void FootLocker::FillQueue() // func for bouncer thread
 {
     while (!m_shutDown)
     {
-        while (m_customers.empty() && !m_waitingQueue.empty())
+
+        if (m_customers.empty() && !QueueReady())
         {
-            m_customerLock.lock();
-            if (m_customers.size() < 20)
+            std::lock_guard<std::mutex> lock(m_customerLock);
+            for (int i{}; i < 10; i++)
             {
                 m_customers.push(m_waitingQueue.front());
                 m_waitingQueue.pop();
             }
-            else
-            {
-                m_customerLock.unlock();
-                break;
-            }
+            ToggleReady();
 
         }
+        m_condition.notify_one();
     }
    
     

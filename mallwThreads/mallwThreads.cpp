@@ -1,13 +1,10 @@
 // jobsysV1.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <iostream>
-#include <vector>
 #include <typeinfo>
 #include <functional>
 #include <utility>
 #include "Data.h"
-#include <thread>
 #include "Generator.h"
 
 //Mall example 
@@ -22,7 +19,7 @@ Each store has to run concurrently and has its own items and procedures regardin
 
 int main()
 {
-    
+    Generator gen{};
 
 }
 

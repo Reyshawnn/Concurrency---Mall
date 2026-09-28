@@ -125,7 +125,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AMC.cpp" />
-    <ClCompile Include="Base.cpp" />
+    <ClCompile Include="BaseStore.cpp" />
     <ClCompile Include="Buffet.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="FootLocker.cpp" />
@@ -134,7 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AMC.h" />
-    <ClInclude Include="Base.h" />
+    <ClInclude Include="BaseStore.h" />
     <ClInclude Include="Buffet.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="FootLocker.h" />

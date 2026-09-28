@@ -9,7 +9,7 @@ void Generator::Generate() //maybe overhaul this with a huge pool of shoes and m
 		switch (customer.m_choice)
 		{
 		case CustomerChoice::Footlocker:
-			customer.SetShoe(Shoe{ m_sizeRange(m_mt),m_shoePriceRange(m_mt),"Air","Jordan" });
+			customer.SetShoe(Shoe{ 2.0,m_shoePriceRange(m_mt),"Air","Jordan" });
 			m_globalQueue.push(customer);
 			break;
 
@@ -33,23 +33,8 @@ void Generator::Dispatch(FootLocker& fl, AMC& amc,Buffet& buffet)
 {
 	while (!m_globalQueue.empty())
 	{
-		switch (m_globalQueue.front().m_choice)
-		{
-		case CustomerChoice::Footlocker:
-			fl.AcceptCustomer(m_globalQueue.front());
-			m_globalQueue.pop();
-			break;
-
-		case CustomerChoice::AMC:
-			amc.AcceptCustomer(m_globalQueue.front());
-			m_globalQueue.pop();
-			break;
-
-		case CustomerChoice::Buffet:
-			buffet.AcceptCustomer(m_globalQueue.front());
-			m_globalQueue.pop();
-			break;
-
-		}
+		m_globalQueue.front().ChooseStore(fl, amc, buffet);
+		m_globalQueue.pop();
 	}
 }
+

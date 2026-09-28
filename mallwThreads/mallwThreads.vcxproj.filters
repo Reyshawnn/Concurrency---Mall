@@ -27,7 +27,7 @@
     <ClCompile Include="FootLocker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Base.cpp">
+    <ClCompile Include="BaseStore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Generator.cpp">
@@ -47,7 +47,7 @@
     <ClInclude Include="FootLocker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Base.h">
+    <ClInclude Include="BaseStore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Generator.h">

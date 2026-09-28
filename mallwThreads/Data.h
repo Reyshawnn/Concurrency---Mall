@@ -1,7 +1,10 @@
 #pragma once
 #include <iostream>
-#include "FootLocker.h"
-#include "AMC.h"
+#include <string>
+
+class FootLocker;
+class AMC;
+class Buffet;
 
 
 enum class CustomerState
@@ -32,7 +35,7 @@ struct Snack
 
 struct Movie
 {
-    float m_price{};
+    int m_price{};
     int m_minutes{};
     std::string m_name{};
     
@@ -81,23 +84,7 @@ struct Customer
     }
 
 
-    void ChooseStore(FootLocker& foot,AMC& amc)
-    {
-        switch (m_choice)
-        {
-        case CustomerChoice::Footlocker:
-            foot.AcceptCustomer(*this);
-            break;
-
-        case CustomerChoice::AMC:
-            amc.AcceptCustomer(*this);
-            break;
-            
-        }
-    }
-
-
-
+    void ChooseStore(FootLocker& foot, AMC& amc, Buffet& buffet);
     friend std::ostream& operator<<(std::ostream& out, const Customer& customer);
 
     
@@ -106,7 +93,7 @@ struct Customer
 struct Owner
 {
     int m_rev;
-    void TakeCut();
+    void TakeCut(int money);
 
 };
 
