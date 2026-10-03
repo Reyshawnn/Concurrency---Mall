@@ -8,13 +8,14 @@ class Buffet : public BaseStore
 {
 
 public:
+    void ServeCustomer() override;
+
+
+
 
 private:
     bool m_shutDown;
-    std::vector<Shoe>m_shoes{};
-    std::queue<Customer> m_customers;
-    std::queue<Customer> m_waitingQueue;
-    std::condition_variable condition;
-    std::mutex m_customerLock;
+    std::vector<Snack>m_snacks{};
+    
 };
 

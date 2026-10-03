@@ -7,15 +7,15 @@ void Customer::ChooseStore(FootLocker & foot, AMC & amc, Buffet & buffet)
     switch (m_choice)
     {
     case CustomerChoice::Footlocker:
-        foot.AcceptCustomer(*this);
+        foot.AcceptCustomer(*this,20);
         break;
 
     case CustomerChoice::AMC:
-        amc.AcceptCustomer(*this);
+        amc.AcceptCustomer(*this,20);
         break;
 
     case CustomerChoice::Buffet:
-        buffet.AcceptCustomer(*this);
+        buffet.AcceptCustomer(*this,20);
         break;
 
     }

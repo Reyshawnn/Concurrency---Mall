@@ -1,8 +1,13 @@
 #pragma once
 #include <thread>
 #include <mutex>
+#include <queue>
+#include <condition_variable>
+#include "Data.h"
 
-struct Customer;
+
+
+
 struct Owner;
 
 
@@ -10,7 +15,9 @@ class BaseStore
 {
 public:
 	virtual void ServeCustomer() = 0;
-	virtual void AcceptCustomer(const Customer& customer) = 0;
+	virtual void AcceptCustomer(const Customer& customer,int maxSize);
+	virtual void FillQueue();
+	Customer GetNextCustomer() const;
 	int GetRev() const;
 	void ConsultOwner(); //Make a Owner Class
 	void AddRev(int money);
@@ -19,14 +26,27 @@ public:
 	void PayOwner();
 	bool QueueReady();
 	void ToggleReady();
+	void InitThreads();
+
+	virtual ~BaseStore() = default;
+
+
+protected:
+	std::mutex* m_ownerMutex;
+	std::queue<Customer> m_customers;
+	std::queue<Customer> m_waitingQueue;
+	std::condition_variable m_condition;
+	std::mutex m_customerLock;
+
+
 
 private:
-	bool ready;
+	bool m_ready;
+	bool m_shutDown;
 	int m_rev;
 	Owner* m_owner;
-	std::mutex* m_ownerMutex;
-	std::thread m_cashierThread;
-	std::thread m_bouncerThread;
+	
+	
 	
 	
 	
