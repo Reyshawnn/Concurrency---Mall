@@ -39,6 +39,12 @@ int main()
     std::thread FLcashierThread(&BaseStore::ServeCustomer, &shoeVendor);
     std::thread FLbouncerThread(&BaseStore::FillQueue, &shoeVendor);
 
+    AMcashierThread.join();
+    AMbouncerThread.join();
+
+    FLcashierThread.join();
+    FLbouncerThread.join();
+
     
 
 
