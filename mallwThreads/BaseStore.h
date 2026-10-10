@@ -2,6 +2,7 @@
 #include <thread>
 #include <mutex>
 #include <queue>
+#include <atomic>
 #include <condition_variable>
 #include "Data.h"
 
@@ -27,22 +28,28 @@ public:
 	bool QueueReady();
 	void ToggleReady();
 	void InitThreads();
+	void setType(int option);
+
 
 	virtual ~BaseStore() = default;
 
 
 protected:
+	std::atomic<bool> m_shutDown;
+	CustomerChoice m_storeType{};
+	int m_consultCount;
 	std::mutex* m_ownerMutex;
-	std::queue<Customer> m_customers;
-	std::queue<Customer> m_waitingQueue;
+	std::string name{};
 	std::condition_variable m_condition;
 	std::mutex m_customerLock;
+	std::queue<Customer> m_customers;
+	std::queue<Customer> m_waitingQueue;
+	
 
 
 
 private:
-	bool m_ready;
-	bool m_shutDown;
+	bool m_ready{ true };
 	int m_rev;
 	Owner* m_owner;
 	

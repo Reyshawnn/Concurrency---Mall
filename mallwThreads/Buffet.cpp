@@ -5,6 +5,8 @@ void Buffet::ServeCustomer()
 
     while (!m_shutDown)
     {
+
+
         std::unique_lock lock{ m_customerLock };
         m_condition.wait(lock, [&] {
             return QueueReady();
@@ -14,15 +16,15 @@ void Buffet::ServeCustomer()
 
         m_customers.pop();
 
-        m_customerLock.unlock();
+        if (m_customers.empty() && QueueReady())
+        {
+            ToggleReady(); //Toggle m_ready to false to trigger bouncer thread queue fill
+        }
+        lock.unlock();
 
         AddRev(customer.m_requestSnack.m_price);
 
-        if (m_customers.empty())
-        {
-            ToggleReady();
-        }
-
+      
 
         if (GetRev() < 1000)
         {
@@ -31,6 +33,8 @@ void Buffet::ServeCustomer()
         else
         {
             ConsultOwner();
+            
         }
+
     }
 }

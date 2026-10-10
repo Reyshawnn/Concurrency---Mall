@@ -2,7 +2,7 @@
 #include "FootLocker.h"
 #include "AMC.h"
 #include "Buffet.h"
-void Customer::ChooseStore(FootLocker & foot, AMC & amc, Buffet & buffet)
+void Customer::ChooseStore(FootLocker& foot, AMC& amc, Buffet& buffet)
 {
     switch (m_choice)
     {
@@ -48,4 +48,13 @@ std::ostream& operator<<(std::ostream& out, const Customer& customer)
 void Owner::TakeCut(int money)
 {
     m_rev += money;
+   // std::cout << "money added to owner wallet" << "\n";
+}
+
+void Owner::ReportTransactions()
+{
+    for (auto& log : buyLogs)
+    {
+        std::cout << log << "\n";
+    }
 }

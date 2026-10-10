@@ -27,6 +27,25 @@ int main()
     AMC movieTheatre{};
     FootLocker shoeVendor{};
     Buffet buff{};
+    Owner owner{};
+    std::mutex ownerMutex{};
+
+    std::vector<BaseStore*> stores;
+
+    stores.push_back(&movieTheatre);
+    stores.push_back(&buff);
+    stores.push_back(&shoeVendor);
+
+    stores.at(0)->setType(1);
+    stores.at(1)->setType(2);
+    stores.at(2)->setType(0);
+
+    for (auto& store : stores)
+    {
+        store->setOwner(owner);
+        store->setMutex(ownerMutex);
+    }
+
 
     gen.Generate();
     gen.Dispatch(shoeVendor,movieTheatre,buff);
@@ -46,6 +65,7 @@ int main()
     FLbouncerThread.join();
 
     
+    owner.ReportTransactions();
 
 
 }

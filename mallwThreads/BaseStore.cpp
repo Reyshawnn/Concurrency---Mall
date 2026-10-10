@@ -17,6 +17,32 @@ void BaseStore::PayOwner()
 	int temp = m_rev * 0.30; //handle int to float conversion
 	m_owner->TakeCut(temp);
 	m_rev -= temp;
+	std::string msg{};
+
+	switch (m_storeType)
+	{
+	case CustomerChoice::Footlocker:
+		msg.append("Footlocker has paid the owner ");
+		msg.append(std::to_string(temp));
+		msg.append(" dollars");
+		m_owner->buyLogs.push_back(msg);
+		break;
+
+	case CustomerChoice::AMC:
+		msg.append("AMC has paid the owner ");
+		msg.append(std::to_string(temp));
+		msg.append(" dollars");
+		m_owner->buyLogs.push_back(msg);
+		break;
+
+	case CustomerChoice::Buffet:
+		msg.append("Buffet has paid the owner ");
+		msg.append(std::to_string(temp));
+		msg.append(" dollars");
+		m_owner->buyLogs.push_back(msg);
+		break;
+	}
+
 }
 
 
@@ -31,7 +57,8 @@ void BaseStore::ConsultOwner() //Make a Owner Class
 	else
 	{
 		m_ownerMutex->lock();
-		
+		PayOwner();
+		m_ownerMutex->unlock();
 
 	}
 }
@@ -104,20 +131,44 @@ void BaseStore::ToggleReady()
 
 void BaseStore::FillQueue() // func for bouncer thread
 {
+	/*std::cout << m_customers.size() << "\n";
+	std::cout << QueueReady() << "\n";
+	std::cout << m_waitingQueue.size() << "\n";*/
     while (!m_shutDown)
     {
-        if (m_customers.empty() && !QueueReady())
-        {
-            std::lock_guard<std::mutex> lock(m_customerLock);
-            for (int i{}; i < 10; i++)
-            {
-                m_customers.push(m_waitingQueue.front());
-                m_waitingQueue.pop();
-            }
-            ToggleReady();
+		{
+			std::lock_guard<std::mutex> lock(m_customerLock);
+			if (m_customers.empty() && !QueueReady())
+			{
 
-        }
-        m_condition.notify_one();
+				//std::cout << "filling q" << "\n";
+				for (int i{}; i < 10; i++)
+				{
+					if (!m_waitingQueue.empty())
+					{
+						m_customers.push(m_waitingQueue.front());
+						m_waitingQueue.pop();
+					}
+					else
+					{
+						std::cout << "out of waiting customers " << "\n";
+						m_shutDown = true;
+						break;
+					}
+					
+				}
+				ToggleReady();
+				//std::cout << QueueReady() << "\n";
+
+			}
+			else if (m_waitingQueue.empty())
+			{
+				std::cout << "out of waiting customers " << "\n";
+				m_shutDown = true;
+			}
+			m_condition.notify_one();
+		}
+        
     }
 
 
@@ -132,7 +183,7 @@ Customer BaseStore::GetNextCustomer() const
 
 void BaseStore::AcceptCustomer(const Customer& customer, int maxSize)
 {
-    if (m_customers.size() >= maxSize)
+    if (m_customers.size() == maxSize)
     {
         m_waitingQueue.push(customer);
         return;
@@ -141,3 +192,22 @@ void BaseStore::AcceptCustomer(const Customer& customer, int maxSize)
     m_customers.push(customer);
 }
 
+
+void BaseStore::setType(int option)
+{
+	switch (option)
+	{
+	case 0:
+		m_storeType = CustomerChoice::Footlocker;
+		break;
+
+	case 1:
+		m_storeType = CustomerChoice::AMC;
+		break;
+
+	case 2:
+		m_storeType = CustomerChoice::Buffet;
+		break;
+	}
+
+}

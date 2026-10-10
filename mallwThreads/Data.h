@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <vector>
 
 class FootLocker;
 class AMC;
@@ -93,7 +94,9 @@ struct Customer
 struct Owner
 {
     int m_rev;
+    std::vector<std::string> buyLogs;
     void TakeCut(int money);
+    void ReportTransactions();
 
 };
 

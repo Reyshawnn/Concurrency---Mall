@@ -26,7 +26,7 @@ public:
 
 
 private:
-    bool m_shutDown;
+   
     std::vector<Movie>m_filmPlaying{};
     std::vector<Snack> m_snackbar{};
   

@@ -25,7 +25,6 @@ public:
 
 
 private:
-    bool m_shutDown;
     std::vector<Shoe>m_shoes{};
   
    

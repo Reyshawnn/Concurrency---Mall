@@ -36,5 +36,7 @@ void Generator::Dispatch(FootLocker& fl, AMC& amc,Buffet& buffet)
 		m_globalQueue.front().ChooseStore(fl, amc, buffet);
 		m_globalQueue.pop();
 	}
+
+	std::cout << "global queue empty " << "\n";
 }
 
